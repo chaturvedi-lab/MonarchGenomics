@@ -19,4 +19,61 @@ Usage: multiqc [OPTIONS] [ANALYSIS DIRECTORY]
  For more help, run 'multiqc --help' or visit http://multiqc.info
 ```
 
-# 2. Running multiQC on the data
+# 2. Running fastQC 
+
+Fist, I ran fastQC on each individual data file to generate quality summaries for each file.
+
+*SCRIPT 1 = fastqc_parents.sh*
+
+```bash
+
+#!/bin/bash
+#SBATCH --job-name=fqc
+#SBATCH --account=fc_flyminer
+#SBATCH --partition=savio2_htc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=10
+#SBATCH --time=100:00:00
+#SBATCH --qos=savio_normal
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=schaturvedi@berkeley.edu
+
+. ~/.bashrc
+
+module load fastqc
+
+FILES="/global/scratch/users/schaturvedi/UC_Davis_sequencing_data_2023/Lane1_parents/Data/uhpnv2kzf0/Un_DTSA778/Project_NWSC_Nova904P_Chaturvedi/SC*"
+
+for f in $FILES
+do
+  echo "fastqc $f -o /global/scratch/users/schaturvedi/monarchs/fastqc/"
+done
+
+```
+*SCRIPT 2 = fastqc_offsprings.sh*
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=fqc
+#SBATCH --account=fc_flyminer
+#SBATCH --partition=savio2_htc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=10
+#SBATCH --time=70:00:00
+#SBATCH --qos=savio_normal
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=schaturvedi@berkeley.edu
+
+. ~/.bashrc
+
+module load fastqc
+
+FILES="/global/scratch/users/schaturvedi/UC_Davis_sequencing_data_2023/Lane2_offspring/Data/d7kjt94iyc/Un_DTSA779/Project_NWSC_Nova905P_Chaturvedi/SC*"
+
+for f in $FILES
+do
+  fastqc $f -o /global/scratch/users/schaturvedi/monarchs/fastqc/offsprings/
+done
+```
