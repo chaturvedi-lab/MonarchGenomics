@@ -1,6 +1,25 @@
 These are my notes for the quality check of the genomic data generated for the Monarch project using the UC Davis Sequencing Core in April-June 2023 at UC Berkeley. I am using MultiQC to assess the qualtiy of the sequences. 
 
-# 1. Installation
+# 1. Fastp for adapter trimming
+I did adapter trimming for the raw data using Fastp (https://github.com/OpenGene/fastp). Fastp uses a custom algorithms and does not neccessarily require us to specify adapter sequences. I installed fastp on the cluster using conda.
+
+## Installation using conda
+
+```bash
+
+module load python
+conda create -n fastp_env python=3.8.8
+conda activate fastp_env
+conda install -c bioconda fastp
+
+#check installation
+$ fastp
+```
+
+## Running fastp on the cluster
+
+
+# MultiQC
 I installed MultiQC on the cluster using Conda. Here are my commands for the installation.
 
 ```bash
